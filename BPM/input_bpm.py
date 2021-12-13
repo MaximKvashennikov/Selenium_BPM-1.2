@@ -19,8 +19,9 @@ class Bpm:
         """Заполняет поле вендора в BPM. Аргумент vendor передается из файла xlsx и означает имя вендора"""
 
         time.sleep(7)
+
         self.driver.find_elements_by_class_name(
-            'base-edit-with-right-icon')[14].click()
+            'base-edit-with-right-icon')[13].click()
         self.driver.implicitly_wait(10)
 
         vendor_list = [item.text for item in self.driver.find_element_by_class_name(
@@ -46,7 +47,7 @@ class Bpm:
         """ Загрузка файла в BPM """
 
         time.sleep(2)
-        self.driver.execute_script("document.getElementById('CasePageTabsTabPanel-tabpanel-items').children[4].click()")
+        self.driver.execute_script("document.getElementById('CasePageTabsTabPanel-tabpanel-items').children[5].click()")
 
         time.sleep(7)
         self.driver.implicitly_wait(10)
@@ -55,7 +56,7 @@ class Bpm:
 
         self.driver.find_element_by_id('FileDetailV2AddRecordButtonButton-fileupload').send_keys(
             path_file + "\\Шаблоны для заявки в BPM_РРЛ.xlsx")
-        time.sleep(15)
+        time.sleep(17)
         self.driver.implicitly_wait(10)
 
     def get_sr(self):
@@ -68,16 +69,25 @@ class Bpm:
 
         return text_sa
 
+    def authorization_bpm(self):
+        time.sleep(4)
+        action = ActionChains(self.driver)
+        action.key_down(Keys.ALT).key_down(Keys.ENTER).perform()
+        time.sleep(10)
+
     def input_fields(self):
         """Заполняет поля в BPM"""
 
         self.driver.get("https://bpm.tele2.ru/0/Nui/ViewModule.aspx#SectionModuleV2/CaseSection/")
+        self.driver.maximize_window()
         self.driver.implicitly_wait(30)
+
+        self.authorization_bpm()
 
         self.driver.find_element_by_class_name("actions-button-margin-right").click()
         self.driver.implicitly_wait(20)
 
-        self.driver.find_element_by_xpath('//*[@id="CasePageSubjectMemoEdit-el"]').send_keys(
+        self.driver.find_element_by_xpath('//*[@id="CasePageSymptomsMemoEdit-el"]').send_keys(
             "Внести корректировки в СМ РРЛ")
         self.driver.implicitly_wait(10)
 
